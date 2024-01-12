@@ -5,7 +5,8 @@
   "main": "./prod/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node -r dotenv/config ./prod/index.js"
+    "start": "node -r dotenv/config ./prod/index.js",
+    "dev": "nodemon -r dotenv/config ./src/index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,10 @@
     "discord-api-types": "^0.37.67",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
+    "nodemon": "^3.0.2",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
   }
 }
