@@ -9,6 +9,4 @@ export const getNoteData = async (id: string) => {
   const parsed  = GetNoteRequestBody.parse({ id });
   const noteData = await manageNote.getNoteData(parsed.id);
   return noteData;
-}
-
-export const getNoteDataRoute
+};
