@@ -16,12 +16,13 @@ model Note {
   title     String
   content   String
   timestamp DateTime @default(now())
-  serverId  String   @db.ObjectId
-  server    Server   @relation(fields: [serverId], references: [id])
+  serverId  String
+  server    Server   @relation(fields: [serverId], references: [serverId])
 }
 
 model Server {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  notes Note[]
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  serverId String @unique
+  name     String
+  notes    Note[]
 }

@@ -5,7 +5,7 @@ export const onInteraction = async (interaction: Interaction) => {
   if (interaction.isCommand()) {
     for (const Command of CommandList) {
       if (interaction.commandName === Command.data.name) {
-        await (Command as any).run(interaction as ChatInputCommandInteraction);
+        await (Command as any).run(interaction);
         break;
       }
     }
