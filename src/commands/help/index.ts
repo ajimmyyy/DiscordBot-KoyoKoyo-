@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from "discord.js";
 import { Command } from "../../interfaces/Command";
 import { CommandList } from "../_CommandList";
 
@@ -11,13 +11,14 @@ export const help: Command = {
     await interaction.deferReply();
     const { user } = interaction;
     const fields = CommandList.map((command) => ({
-      name: command.data.name,
+      name: `${command.data.name}`,
       value: `Description:\n ${command.data.description}`,
       inline: false,
     }))
 
-    const infoEmbed = new EmbedBuilder()
+    const embed = new EmbedBuilder()
       .setTitle("こよこよ ボット")
+      .setColor(0x18e1ee)
       .setDescription("Command List")
       .setFields(fields)
       .setFooter({
@@ -25,6 +26,24 @@ export const help: Command = {
           "by ajimmyyy."
       });
 
-    await interaction.editReply({ embeds: [infoEmbed] });
+    const cancelButton = new ButtonBuilder()
+      .setCustomId('cancel')
+      .setLabel('Icant')
+      .setEmoji('🤏')
+      .setStyle(ButtonStyle.Danger)
+
+    const confirmButton = new ButtonBuilder()
+      .setCustomId('confirm')
+      .setLabel('Nice!')
+      .setEmoji('😎')
+      .setStyle(ButtonStyle.Success)
+    
+    const row = new ActionRowBuilder()
+      .addComponents(cancelButton, confirmButton);
+
+    await interaction.editReply({
+      embeds: [embed],
+      components: [row],
+    });
   }
 };
