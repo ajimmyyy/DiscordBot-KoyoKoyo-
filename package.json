@@ -13,14 +13,18 @@
   "dependencies": {
     "@discordjs/builders": "^1.7.0",
     "@discordjs/rest": "^2.2.0",
+    "@prisma/client": "^5.8.0",
     "@types/node": "^20.11.0",
     "discord-api-types": "^0.37.67",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
+    "mongoose": "^8.0.4",
     "nodemon": "^3.0.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
+    "prisma": "^5.8.0",
     "ts-node": "^10.9.2"
   }
 }
