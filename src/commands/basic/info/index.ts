@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { Command } from "../../interfaces/Command";
+import { Command } from "@/interfaces/Command";
 
 export const botInfo: Command = {
   data: new SlashCommandBuilder()

@@ -1,10 +1,17 @@
 import prisma from "../../../utils/prisma";
 
 class ManageNote {
-  async getNoteData(id: string) {
-    const camperData = await prisma.note.findFirst({
+  async getNoteData(day: number) {
+    const currentDate = new Date();
+    const startDate = new Date(currentDate);
+    startDate.setDate(currentDate.getDate() - day);
+
+    const camperData = await prisma.note.findMany({
       where: {
-        id: id,
+        timestamp: {
+          gte: startDate.toISOString(),
+          lte: currentDate.toISOString(),
+        },
       },
     });
 
@@ -23,6 +30,8 @@ class ManageNote {
       },
     });
 
+    await this.CheckNoteNum(serverId);
+
     return noteData;
   };
 
@@ -40,6 +49,43 @@ class ManageNote {
     });
 
     return noteData;
+  };
+
+  async deleteNoteData(id: string) {
+    const noteData = await prisma.note.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return noteData;
+  };
+
+  private async CheckNoteNum(serverId: string) {
+    const notesCount = await prisma.note.count({
+      where: {
+        serverId: serverId,
+      },
+    });
+
+    if (notesCount > 10) {
+      const oldestNote = await prisma.note.findFirst({
+        where: {
+          serverId: serverId,
+        },
+        orderBy: {
+          timestamp: 'asc',
+        },
+      });
+
+      if (oldestNote) {
+        await prisma.note.delete({
+          where: {
+            id: oldestNote.id,
+          },
+        });
+      }
+    }
   };
 }
 

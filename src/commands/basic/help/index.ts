@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from "discord.js";
-import { Command } from "../../interfaces/Command";
-import { CommandList } from "../_CommandList";
+import { Command } from "@/interfaces/Command";
+import { CommandList } from "@/commands/_CommandList";
 
 export const help: Command = {
   data: new SlashCommandBuilder()

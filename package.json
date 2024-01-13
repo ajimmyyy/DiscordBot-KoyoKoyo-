@@ -5,8 +5,8 @@
   "main": "./prod/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node -r dotenv/config ./prod/index.js",
-    "dev": "nodemon -r dotenv/config ./src/index.ts"
+    "start": "node -r tsconfig-paths/register -r dotenv/config ./prod/index.js",
+    "dev": "nodemon -r tsconfig-paths/register -r dotenv/config ./src/index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "prisma": "^5.8.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   }
 }

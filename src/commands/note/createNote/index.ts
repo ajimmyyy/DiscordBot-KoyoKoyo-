@@ -1,9 +1,9 @@
 import { EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { Command } from "../../interfaces/Command";
-import { createNoteData } from "../../api/manageNote/route";
+import { Command } from "@/interfaces/Command";
+import { createNoteData } from "@/api/manageNote/route";
 
-export const note: Command = {
+export const createNote: Command = {
   data: new SlashCommandBuilder()
     .setName("note")
     .setDescription("Create a note")
@@ -34,10 +34,9 @@ export const note: Command = {
 
     const note = await createNoteData({ type, title, content, serverId: interaction.guildId! });
 
-    console.log(note);
-
     const embed = new EmbedBuilder()
       .setTitle(`Note created`)
+      .setColor(0x18e1ee)
       .setDescription(`Note created with id: ${note.id}`)
       .addFields([
         {

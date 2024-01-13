@@ -16,9 +16,9 @@ interface UpdateNoteData {
   serverId: string;
 }
 
-export const getNoteData = async (id: string) => {
-  const noteData = await manageNote.getNoteData(id);
-  return noteData;
+export const getNoteData = async (day: number) => {
+  const notes = await manageNote.getNoteData(day);
+  return notes;
 };
 
 export const createNoteData = async ({type, title, content, serverId}: CreateNoteData) => {
