@@ -25,4 +25,13 @@ model Server {
   serverId String @unique
   name     String
   notes    Note[]
+  minecraftServer MinecraftServer[]
+}
+
+model MinecraftServer {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  serverName String
+  timestamp DateTime @default(now())
+  serverId  String
+  server    Server   @relation(fields: [serverId], references: [serverId])
 }

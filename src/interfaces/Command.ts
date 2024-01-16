@@ -8,5 +8,5 @@ export interface Command {
   data:
     | Omit<SlashCommandBuilder, "addSubcommandGroup" | "addSubcommand">
     | SlashCommandSubcommandsOnlyBuilder;
-  run: (interaction: any) => Promise<void>;
+  run: (interaction: ChatInputCommandInteraction) => Promise<void>;
 }

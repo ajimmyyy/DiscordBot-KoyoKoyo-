@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import { Client } from "discord.js";
 import { IntentOptions } from "./config/IntentOptions";
 import { validateEnv } from "./utils/validateEnv";

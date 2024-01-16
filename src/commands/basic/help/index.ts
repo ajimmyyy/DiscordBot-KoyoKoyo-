@@ -38,7 +38,7 @@ export const help: Command = {
       .setEmoji('😎')
       .setStyle(ButtonStyle.Success)
     
-    const row = new ActionRowBuilder()
+    const row = new ActionRowBuilder<ButtonBuilder>()
       .addComponents(cancelButton, confirmButton);
 
     await interaction.editReply({
