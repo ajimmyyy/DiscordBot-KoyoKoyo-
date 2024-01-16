@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { Command } from "../../interfaces/Command";
+import { Command } from "@/interfaces/Command";
 
 export const botInfo: Command = {
   data: new SlashCommandBuilder()
@@ -14,6 +14,7 @@ export const botInfo: Command = {
       .setTitle("こよこよ ボット")
       .setDescription("This is KoyoKoyo bot!")
       .setDescription("Please use /help for more information!")
+      .setColor(0x18e1ee)
       .setFields([
         {
           name: "Version",

@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Note {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  type      String   @default("None")
+  title     String
+  content   String
+  timestamp DateTime @default(now())
+  serverId  String
+  server    Server   @relation(fields: [serverId], references: [serverId])
+}
+
+model Server {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  serverId String @unique
+  name     String
+  notes    Note[]
+  minecraftServer MinecraftServer[]
+}
+
+model MinecraftServer {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  serverName String
+  timestamp DateTime @default(now())
+  serverId  String
+  server    Server   @relation(fields: [serverId], references: [serverId])
+}
