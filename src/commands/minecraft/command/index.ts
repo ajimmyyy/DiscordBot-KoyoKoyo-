@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { Command } from "@/interfaces/Command";
 import { minecraftServer } from "@/commands/minecraft/runServer";
 
-export const minecraftCommand: Command = {
+export const commandMinecraft: Command = {
   data: new SlashCommandBuilder()
     .setName("minecraft_command")
     .setDescription("input minecraft command")

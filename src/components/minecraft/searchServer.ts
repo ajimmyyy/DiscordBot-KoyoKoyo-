@@ -15,7 +15,7 @@ export async function SearchServerEmbed(serverId: string) {
     .setColor(0x228b22)
     .setDescription("choose one server")
 
-  const cancelButton = new StringSelectMenuBuilder()
+  const selectMenu = new StringSelectMenuBuilder()
     .setCustomId('sever list')
     .setPlaceholder('None')
     .addOptions(
@@ -28,7 +28,7 @@ export async function SearchServerEmbed(serverId: string) {
   )
 
   const row = new ActionRowBuilder<StringSelectMenuBuilder>()
-    .addComponents(cancelButton);
+    .addComponents(selectMenu);
 
   return{
     embeds: [embed],
