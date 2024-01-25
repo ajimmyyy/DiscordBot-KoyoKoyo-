@@ -2,3 +2,4 @@
 /prod/
 /public/minecraftServer/
 .env
+server.log
