@@ -2,26 +2,41 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { ChatInputCommandInteraction, ComponentType } from "discord.js";
 import { Command } from "@/interfaces/Command";
 import { SearchServerEmbed } from "@/components/minecraft/searchServer";
-import { runningServerEmbed } from "@/components/minecraft/runningServer";
+import { RunningServerEmbed } from "@/components/minecraft/runningServer";
 import { ErrorServerEmbed } from "@/components/minecraft/errrorServer";
 import { StopServerEmbed } from "@/components/minecraft/stopServer";
-import { ChildProcessWithoutNullStreams } from "child_process";
+import { MinecroftServer } from "@/interfaces/MinecraftServer";
+import { getMinecraftServerByName } from "@/api/manageMinecraftServer/route";
 const { spawn } = require('child_process');
 const treeKill = require('tree-kill');
 const path = require('path');
 
 const MAX_MEMORY = 3072;
 const MIN_MEMORY = 1024;
-let minecraftProcess: ChildProcessWithoutNullStreams | null = null;
+let minecraftServer: MinecroftServer = {
+  id: "",
+  serverName: "",
+  version: "",
+  prosess: null
+};
 let originalDirectory: string;
 
 async function startMinecraftServer(interaction: ChatInputCommandInteraction, serverName: string): Promise<number> {
   originalDirectory = process.cwd();
   const jarFilePath = path.join(process.cwd(), `public/minecraftServer/${serverName}`);
 
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     process.chdir(jarFilePath);
-    minecraftProcess = spawn('java', [`-Xmx${MAX_MEMORY}M`, `-Xms${MIN_MEMORY}M`, '-jar', 'server.jar', 'nogui']);
+
+    const detial = await getMinecraftServerByName(serverName);
+    const minecraftProcess = spawn('java', [`-Xmx${MAX_MEMORY}M`, `-Xms${MIN_MEMORY}M`, '-jar', 'server.jar', 'nogui']);
+
+    minecraftServer = {
+      id: detial?.id || "",
+      serverName: detial?.serverName || "",
+      version: detial?.version || "",
+      prosess: minecraftProcess
+    }
 
     minecraftProcess?.stdout.on('data', (data: string) => {
       console.log(`stdout: ${data}`);
@@ -49,16 +64,16 @@ async function startMinecraftServer(interaction: ChatInputCommandInteraction, se
 
 export async function stopMinecraftServer(): Promise<number> {
   console.log("Stopping Minecraft server...");
-  if (minecraftProcess) {
+  if (minecraftServer.prosess) {
     return new Promise<number>((resolve) => {
-      treeKill(minecraftProcess?.pid, 'SIGTERM', (err: any) => {
+      treeKill(minecraftServer.prosess?.pid, 'SIGTERM', (err: any) => {
         if (err) {
           console.error('Something went wrong', err);
           resolve(500);
         }
         else {
           console.log("Minecraft server closed");
-          minecraftProcess = null;
+          minecraftServer.prosess = null;
           resolve(200);
         }
       });
@@ -76,8 +91,8 @@ export const minecraft: Command = {
   run: async (interaction) => {
     await interaction.deferReply({ ephemeral: true });
 
-    if (minecraftProcess) {
-      await interaction.editReply(await runningServerEmbed);
+    if (minecraftServer.prosess) {
+      await interaction.editReply(await RunningServerEmbed(minecraftServer));
       return;
     }
 
@@ -92,7 +107,7 @@ export const minecraft: Command = {
       const code = await startMinecraftServer(interaction, i.values[0]);
       chooseCollector?.stop();
       if (code === 200) {
-        const close = await interaction.followUp(runningServerEmbed);
+        const close = await interaction.followUp(await RunningServerEmbed(minecraftServer));
         await interaction.deleteReply();
 
         const closeCollector = close.createMessageComponentCollector({

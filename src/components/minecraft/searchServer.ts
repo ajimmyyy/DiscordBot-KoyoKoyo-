@@ -1,8 +1,8 @@
 import { EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } from "discord.js";
-import { getMinecraftServer } from "@/api/manageMinecraftServer/route";
+import { getMinecraftServerById } from "@/api/manageMinecraftServer/route";
 
 export async function SearchServerEmbed(serverId: string) {
-  const serverData = await getMinecraftServer(serverId);
+  const serverData = await getMinecraftServerById(serverId);
 
   if (serverData.length === 0) {
     return {
