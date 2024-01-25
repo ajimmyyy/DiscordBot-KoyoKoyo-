@@ -1,24 +1,30 @@
 import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from "discord.js";
+import { MinecroftServer } from "@/interfaces/MinecraftServer";
 
-const embed = new EmbedBuilder()
-  .setTitle("runing minecraft server")
-  .setColor(0x228b22)
-  .setDescription("Success! ✅")
-  .addFields(
-    { name: "IP", value: "26.73.49.72" },
-    { name: "Port", value: "25565" },
-  )
+export async function RunningServerEmbed(server: MinecroftServer) {
 
-const closeButton = new ButtonBuilder()
-    .setCustomId('close')
-    .setLabel('Close')
-    .setEmoji('✖️')
-    .setStyle(ButtonStyle.Danger)
 
-const row = new ActionRowBuilder<ButtonBuilder>()
-  .addComponents(closeButton);
+  const embed = new EmbedBuilder()
+    .setTitle(`runing server: ${server.serverName}`)
+    .setColor(0x228b22)
+    .setDescription("Success! ✅")
+    .addFields(
+      { name: "Version", value: server.version },
+      { name: "IP", value: "ajimmyyy.ddns.net:25565" },
+      { name: "Port", value: "25565" },
+    )
 
-export const runningServerEmbed = {
-  embeds: [embed],
-  components: [row],
+  const closeButton = new ButtonBuilder()
+      .setCustomId('close')
+      .setLabel('Close')
+      .setEmoji('✖️')
+      .setStyle(ButtonStyle.Danger)
+
+  const row = new ActionRowBuilder<ButtonBuilder>()
+    .addComponents(closeButton);
+
+  return {
+    embeds: [embed],
+    components: [row],
+  }
 }

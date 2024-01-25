@@ -1,7 +1,7 @@
 import prisma from "@/utils/prisma";
 
 class ManageMinecraftServer {
-  async getMinecraftServer(serverId: string) {
+  async getMinecraftServerById(serverId: string) {
     const servers = await prisma.minecraftServer.findMany({
       where: {
         serverId: serverId,
@@ -9,6 +9,16 @@ class ManageMinecraftServer {
     });
 
     return servers;
+  };
+
+  async getMinecraftServerByName(serverName: string) {
+    const server = await prisma.minecraftServer.findFirst({
+      where: {
+        serverName: serverName,
+      },
+    });
+
+    return server;
   };
 }
 
