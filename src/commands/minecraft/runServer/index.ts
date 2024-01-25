@@ -13,7 +13,7 @@ const path = require('path');
 
 const MAX_MEMORY = 3072;
 const MIN_MEMORY = 1024;
-let minecraftServer: MinecroftServer = {
+export let minecraftServer: MinecroftServer = {
   id: "",
   serverName: "",
   version: "",
