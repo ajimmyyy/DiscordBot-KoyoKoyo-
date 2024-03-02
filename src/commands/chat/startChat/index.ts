@@ -2,14 +2,13 @@ import { EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { Command } from "@/interfaces/Command";
 import { GenerateContentRequest, GoogleGenerativeAI, ModelParams } from "@google/generative-ai";
+import { gemini } from "@/config/geminiAi";
 
 const MODEL: ModelParams = {
     model: "gemini-pro",
 };
-const TOKEN = process.env.GOOGLE_API_TOKEN || "";
 
-const ai = new GoogleGenerativeAI(TOKEN);
-const model = ai.getGenerativeModel(MODEL);
+const model = gemini.getGenerativeModel(MODEL);
 
 export const chat: Command = {
     data: new SlashCommandBuilder()
@@ -55,23 +54,30 @@ export const chat: Command = {
 
       // const { response } = await model.generateContentStream(request);
 
-      const { response } = await model.generateContent(content);
-      const embed = new EmbedBuilder()
-        .setTitle("ChatKoyo")
-        .setColor("#ff69b4")
-        .setDescription(content)
-        .addFields({
-          name: "KoyoBot:",
-          value: response ? await response.text() : "An error occurred while processing the request.",
-          inline: false
-        })
-        .setFooter({
-          text: `Requested by ${user.tag}`
-        })
-        .setTimestamp();
+      try{
+        const { response } = await model.generateContent(content);
+        const embed = new EmbedBuilder()
+          .setTitle("ChatKoyo")
+          .setColor("#ff69b4")
+          .setDescription(content)
+          .addFields({
+            name: "KoyoBot:",
+            value: response.text(),
+            inline: false
+          })
+          .setFooter({
+            text: `Requested by ${user.tag}`
+          })
+          .setTimestamp();
 
-      await interaction.editReply({
-        embeds: [embed],
-      });
+        await interaction.editReply({
+          embeds: [embed],
+        });
+      }
+      catch (e){
+        await interaction.reply({
+          content: "Error in chat",
+        });
+      }
     }
   };
