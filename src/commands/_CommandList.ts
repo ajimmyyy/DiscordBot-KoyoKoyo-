@@ -7,5 +7,6 @@ import { searchNote } from "./note/searchNote";
 import { minecraft } from "./minecraft/runServer";
 import { closeMinecraft } from "./minecraft/closeServer";
 import { commandMinecraft } from "./minecraft/command";
+import { chat } from "./chat/startChat";
 
-export const CommandList: Command[] = [ping, botInfo, help, createNote, searchNote, minecraft, closeMinecraft, commandMinecraft];
+export const CommandList: Command[] = [ping, botInfo, help, createNote, searchNote, minecraft, closeMinecraft, commandMinecraft, chat];
