@@ -56,23 +56,19 @@ export const chat: Command = {
       // const { response } = await model.generateContentStream(request);
 
       const { response } = await model.generateContent(content);
-
       const embed = new EmbedBuilder()
-      .setTitle("ChatKoyo")
-      .setColor("#ff69b4")
-      .setDescription(content)
-      .addFields(
-        {
+        .setTitle("ChatKoyo")
+        .setColor("#ff69b4")
+        .setDescription(content)
+        .addFields({
           name: "KoyoBot:",
-          value: await response.text(),
+          value: response ? await response.text() : "An error occurred while processing the request.",
           inline: false
-        }
-      )
-      .setFooter({
-        text:
-          `Requested by ${user.tag}`
-      })
-      .setTimestamp();
+        })
+        .setFooter({
+          text: `Requested by ${user.tag}`
+        })
+        .setTimestamp();
 
       await interaction.editReply({
         embeds: [embed],
