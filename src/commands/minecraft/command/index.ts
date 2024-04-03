@@ -27,7 +27,7 @@ export const commandMinecraft: Command = {
 
     minecraftServer.prosess.stdin.write(`${command}`);
     minecraftServer.prosess.stdin.end();
-    minecraftServer.prosess.stdout.on('data', (data) => {
+    minecraftServer.prosess.stdout.once('data', (data) => {
       response += data.toString();
       const embed = new EmbedBuilder()
         .setTitle(`Command`)
