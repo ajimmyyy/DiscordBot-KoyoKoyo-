@@ -75,9 +75,7 @@ export const chat: Command = {
         });
       }
       catch (e){
-        await interaction.reply({
-          content: "Error in chat",
-        });
+        await interaction.editReply(`Something wrong!?`);
       }
     }
   };
